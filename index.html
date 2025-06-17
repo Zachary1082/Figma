@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冥想App原型图</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#8b5cf6',
+                        accent: '#f59e0b',
+                        calm: '#10b981',
+                        dark: '#1f2937'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .meditation-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        .progress-ring-circle {
+            transition: stroke-dasharray 0.35s;
+            transform-origin: 50% 50%;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+        <div class="flex justify-between items-center px-4 py-3">
+            <button onclick="showPage('home')" class="text-primary font-semibold">冥想App原型</button>
+            <div class="flex space-x-4">
+                <button onclick="showPage('home')" class="text-gray-600 hover:text-primary">首页</button>
+                <button onclick="showPage('meditation')" class="text-gray-600 hover:text-primary">冥想</button>
+                <button onclick="showPage('profile')" class="text-gray-600 hover:text-primary">个人</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 启动页 -->
+    <div id="splash" class="page active min-h-screen gradient-bg flex items-center justify-center">
+        <div class="text-center text-white">
+            <div class="w-24 h-24 mx-auto mb-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-bold mb-4">静心冥想</h1>
+            <p class="text-xl opacity-90 mb-8">找到内心的平静与专注</p>
+            <button onclick="showPage('onboarding')" class="bg-white text-primary px-8 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all">
+                开始体验
+            </button>
+        </div>
+    </div>
+
+    <!-- 引导页 -->
+    <div id="onboarding" class="page min-h-screen bg-white">
+        <div class="pt-16 px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">欢迎来到静心冥想</h2>
+                <p class="text-gray-600">让我们了解一下您的冥想需求</p>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="text-lg font-semibold mb-3">您的冥想目标是什么？</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-primary transition-all">
+                            <div class="text-center">
+                                <div class="w-8 h-8 mx-auto mb-2 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <span class="text-blue-600 text-sm">😌</span>
+                                </div>
+                                <p class="text-sm font-medium">减压放松</p>
+                            </div>
+                        </button>
+                        <button class="p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-primary transition-all">
+                            <div class="text-center">
+                                <div class="w-8 h-8 mx-auto mb-2 bg-green-100 rounded-full flex items-center justify-center">
+                                    <span class="text-green-600 text-sm">🎯</span>
+                                </div>
+                                <p class="text-sm font-medium">提高专注</p>
+                            </div>
+                        </button>
+                        <button class="p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-primary transition-all">
+                            <div class="text-center">
+                                <div class="w-8 h-8 mx-auto mb-2 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <span class="text-purple-600 text-sm">😴</span>
+                                </div>
+                                <p class="text-sm font-medium">改善睡眠</p>
+                            </div>
+                        </button>
+                        <button class="p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-primary transition-all">
+                            <div class="text-center">
+                                <div class="w-8 h-8 mx-auto mb-2 bg-orange-100 rounded-full flex items-center justify-center">
+                                    <span class="text-orange-600 text-sm">🧘</span>
+                                </div>
+                                <p class="text-sm font-medium">心灵成长</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <h3 class="text-lg font-semibold mb-3">您的冥想经验如何？</h3>
+                    <div class="space-y-3">
+                        <button class="w-full p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-primary transition-all text-left">
+                            <p class="font-medium">初学者 - 从未尝试过冥想</p>
+                        </button>
+                        <button class="w-full p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-primary transition-all text-left">
+                            <p class="font-medium">有一些经验 - 偶尔冥想</p>
+                        </button>
+                        <button class="w-full p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-primary transition-all text-left">
+                            <p class="font-medium">有经验 - 经常冥想</p>
+                        </button>
+                    </div>
+                </div>
+
+                <button onclick="showPage('home')" class="w-full bg-primary text-white py-4 rounded-xl font-semibold hover:bg-primary/90 transition-all">
+                    开始我的冥想之旅
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 首页 -->
+    <div id="home" class="page min-h-screen bg-gray-50">
+        <div class="pt-16 px-4">
+            <!-- 顶部问候 -->
+            <div class="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">早上好，小明</h1>
+                        <p class="text-gray-600">今天是冥想的好日子</p>
+                    </div>
+                    <div class="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
+                        <span class="text-white font-semibold">小</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 今日推荐 -->
+            <div class="bg-gradient-to-r from-primary to-secondary rounded-2xl p-6 mb-6 text-white">
+                <h2 class="text-xl font-bold mb-3">今日推荐</h2>
+                <div class="flex items-center space-x-4">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=80&h=80&fit=crop&crop=center" 
+                         alt="冥想背景" class="w-16 h-16 rounded-lg object-cover">
+                    <div class="flex-1">
+                        <h3 class="font-semibold">晨间唤醒冥想</h3>
+                        <p class="text-sm opacity-90">10分钟 · 初级</p>
+                    </div>
+                    <button onclick="showPage('meditation-player')" class="bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm font-medium">
+                        开始
+                    </button>
+                </div>
+            </div>
+
+            <!-- 快速开始 -->
+            <div class="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+                <h2 class="text-xl font-bold mb-4">快速开始</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="showPage('meditation-player')" class="p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all">
+                        <div class="text-center">
+                            <div class="w-12 h-12 mx-auto mb-2 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 text-xl">⏰</span>
+                            </div>
+                            <p class="font-medium text-sm">5分钟</p>
+                            <p class="text-xs text-gray-500">快速放松</p>
+                        </div>
+                    </button>
+                    <button onclick="showPage('meditation-player')" class="p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all">
+                        <div class="text-center">
+                            <div class="w-12 h-12 mx-auto mb-2 bg-green-100 rounded-full flex items-center justify-center">
+                                <span class="text-green-600 text-xl">🌙</span>
+                            </div>
+                            <p class="font-medium text-sm">15分钟</p>
+                            <p class="text-xs text-gray-500">深度冥想</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 最近活动 -->
+            <div class="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+                <h2 class="text-xl font-bold mb-4">最近活动</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                            <span class="text-white text-sm">📊</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium">连续冥想 7 天</p>
+                            <p class="text-sm text-gray-500">继续保持！</p>
+                        </div>
+                        <span class="text-primary font-semibold">🔥</span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center">
+                            <span class="text-white text-sm">⏱️</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium">本周冥想时长</p>
+                            <p class="text-sm text-gray-500">2小时 30分钟</p>
+                        </div>
+                        <span class="text-secondary font-semibold">+15%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 冥想页面 -->
+    <div id="meditation" class="page min-h-screen bg-gray-50">
+        <div class="pt-16 px-4">
+            <!-- 搜索栏 -->
+            <div class="bg-white rounded-2xl p-4 mb-6 shadow-sm">
+                <div class="flex items-center space-x-3">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <input type="text" placeholder="搜索冥想内容..." class="flex-1 outline-none text-gray-700">
+                </div>
+            </div>
+
+            <!-- 分类标签 -->
+            <div class="flex space-x-3 mb-6 overflow-x-auto">
+                <button class="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium whitespace-nowrap">
+                    全部
+                </button>
+                <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm font-medium whitespace-nowrap">
+                    减压放松
+                </button>
+                <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm font-medium whitespace-nowrap">
+                    专注力
+                </button>
+                <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm font-medium whitespace-nowrap">
+                    睡眠
+                </button>
+                <button class="px-4 py-2 bg-white text-gray-600 rounded-full text-sm font-medium whitespace-nowrap">
+                    情绪管理
+                </button>
+            </div>
+
+            <!-- 冥想课程列表 -->
+            <div class="space-y-4">
+                <div class="bg-white rounded-2xl p-4 shadow-sm">
+                    <div class="flex space-x-4">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=80&h=80&fit=crop&crop=center" 
+                             alt="冥想课程" class="w-20 h-20 rounded-xl object-cover">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-gray-800 mb-1">初学者引导冥想</h3>
+                            <p class="text-sm text-gray-600 mb-2">适合冥想新手，温和的引导帮助你开始冥想之旅</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span>⏱️ 10分钟</span>
+                                    <span>👥 初级</span>
+                                </div>
+                                <button onclick="showPage('meditation-player')" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium">
+                                    开始
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-4 shadow-sm">
+                    <div class="flex space-x-4">
+                        <img src="https://images.unsplash.com/photo-1518241353330-0f7941c2d9c5?w=80&h=80&fit=crop&crop=center" 
+                             alt="冥想课程" class="w-20 h-20 rounded-xl object-cover">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-gray-800 mb-1">深度放松冥想</h3>
+                            <p class="text-sm text-gray-600 mb-2">释放身心压力，进入深度放松状态</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span>⏱️ 20分钟</span>
+                                    <span>👥 中级</span>
+                                </div>
+                                <button onclick="showPage('meditation-player')" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium">
+                                    开始
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-4 shadow-sm">
+                    <div class="flex space-x-4">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=80&h=80&fit=crop&crop=center" 
+                             alt="冥想课程" class="w-20 h-20 rounded-xl object-cover">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-gray-800 mb-1">专注力训练</h3>
+                            <p class="text-sm text-gray-600 mb-2">提升注意力集中能力，增强工作效率</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span>⏱️ 15分钟</span>
+                                    <span>👥 中级</span>
+                                </div>
+                                <button onclick="showPage('meditation-player')" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium">
+                                    开始
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-4 shadow-sm">
+                    <div class="flex space-x-4">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=80&h=80&fit=crop&crop=center" 
+                             alt="冥想课程" class="w-20 h-20 rounded-xl object-cover">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-gray-800 mb-1">睡前放松</h3>
+                            <p class="text-sm text-gray-600 mb-2">帮助快速入睡，改善睡眠质量</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span>⏱️ 8分钟</span>
+                                    <span>👥 初级</span>
+                                </div>
+                                <button onclick="showPage('meditation-player')" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium">
+                                    开始
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 冥想播放器 -->
+    <div id="meditation-player" class="page min-h-screen gradient-bg">
+        <div class="pt-16 px-4">
+            <!-- 返回按钮 -->
+            <div class="flex items-center mb-8">
+                <button onclick="showPage('meditation')" class="text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h1 class="text-xl font-semibold text-white ml-4">晨间唤醒冥想</h1>
+            </div>
+
+            <!-- 背景图片 -->
+            <div class="relative mb-8">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center" 
+                     alt="冥想背景" class="w-full h-48 rounded-2xl object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-30 rounded-2xl"></div>
+            </div>
+
+            <!-- 进度环 -->
+            <div class="flex justify-center mb-8">
+                <div class="relative">
+                    <svg class="w-48 h-48 progress-ring">
+                        <circle cx="96" cy="96" r="88" stroke="rgba(255,255,255,0.2)" stroke-width="8" fill="transparent"/>
+                        <circle cx="96" cy="96" r="88" stroke="white" stroke-width="8" fill="transparent" 
+                                stroke-dasharray="553" stroke-dashoffset="276" class="progress-ring-circle"/>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="text-center text-white">
+                            <div class="text-3xl font-bold">05:30</div>
+                            <div class="text-sm opacity-80">剩余时间</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 控制按钮 -->
+            <div class="flex items-center justify-center space-x-8 mb-8">
+                <button class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M8 5v10l8-5-8-5z"/>
+                    </svg>
+                </button>
+                <button class="w-16 h-16 bg-white rounded-full flex items-center justify-center">
+                    <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+                <button class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M4.555 5.168A1 1 0 003 6v8a1 1 0 001.555.832L10 11V8.5l-5.445-3.332z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- 音量控制 -->
+            <div class="bg-white bg-opacity-10 rounded-2xl p-4 mb-6">
+                <div class="flex items-center space-x-4">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.617.793L4.5 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.5l3.883-2.793a1 1 0 011.617.793zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                    <div class="flex-1 bg-white bg-opacity-20 rounded-full h-2">
+                        <div class="bg-white h-2 rounded-full w-3/4"></div>
+                    </div>
+                    <span class="text-white text-sm">75%</span>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="flex space-x-4">
+                <button class="flex-1 bg-white bg-opacity-20 text-white py-3 rounded-xl font-medium">
+                    暂停
+                </button>
+                <button class="flex-1 bg-white bg-opacity-20 text-white py-3 rounded-xl font-medium">
+                    结束
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 个人中心 -->
+    <div id="profile" class="page min-h-screen bg-gray-50">
+        <div class="pt-16 px-4">
+            <!-- 用户信息 -->
+            <div class="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+                <div class="flex items-center space-x-4">
+                    <div class="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
+                        <span class="text-white text-xl font-semibold">小</span>
+                    </div>
+                    <div class="flex-1">
+                        <h2 class="text-xl font-bold text-gray-800">小明</h2>
+                        <p class="text-gray-600">冥想爱好者</p>
+                        <div class="flex items-center space-x-4 mt-2">
+                            <span class="text-sm text-gray-500">连续冥想 7 天</span>
+                            <span class="text-sm text-gray-500">总时长 12.5 小时</span>
+                        </div>
+                    </div>
+                    <button class="text-primary font-medium">编辑</button>
+                </div>
+            </div>
+
+            <!-- 统计数据 -->
+            <div class="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+                <h3 class="text-lg font-bold mb-4">本周统计</h3>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-primary">7</div>
+                        <div class="text-sm text-gray-500">冥想天数</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-secondary">2.5h</div>
+                        <div class="text-sm text-gray-500">总时长</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-accent">85%</div>
+                        <div class="text-sm text-gray-500">完成率</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 成就徽章 -->
+            <div class="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+                <h3 class="text-lg font-bold mb-4">成就徽章</h3>
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="text-center">
+                        <div class="w-12 h-12 mx-auto mb-2 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <span class="text-yellow-600 text-xl">🏆</span>
+                        </div>
+                        <p class="text-xs font-medium">初学者</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 mx-auto mb-2 bg-blue-100 rounded-full flex items-center justify-center">
+                            <span class="text-blue-600 text-xl">🔥</span>
+                        </div>
+                        <p class="text-xs font-medium">连续7天</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 mx-auto mb-2 bg-gray-100 rounded-full flex items-center justify-center">
+                            <span class="text-gray-400 text-xl">⭐</span>
+                        </div>
+                        <p class="text-xs font-medium text-gray-400">专注大师</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 mx-auto mb-2 bg-gray-100 rounded-full flex items-center justify-center">
+                            <span class="text-gray-400 text-xl">🌙</span>
+                        </div>
+                        <p class="text-xs font-medium text-gray-400">睡眠专家</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 设置选项 -->
+            <div class="bg-white rounded-2xl shadow-sm">
+                <div class="p-4 border-b border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 text-sm">⚙️</span>
+                            </div>
+                            <span class="font-medium">设置</span>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="p-4 border-b border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <span class="text-green-600 text-sm">📊</span>
+                            </div>
+                            <span class="font-medium">数据统计</span>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="p-4 border-b border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                                <span class="text-purple-600 text-sm">🔔</span>
+                            </div>
+                            <span class="font-medium">提醒设置</span>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                                <span class="text-red-600 text-sm">❓</span>
+                            </div>
+                            <span class="font-medium">帮助与反馈</span>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * 显示指定页面
+         * @param {string} pageId - 页面ID
+         */
+        function showPage(pageId) {
+            // 隐藏所有页面
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 显示指定页面
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+        }
+
+        // 模拟进度更新
+        let progress = 0;
+        const progressCircle = document.querySelector('.progress-ring-circle');
+        
+        if (progressCircle) {
+            setInterval(() => {
+                progress += 1;
+                if (progress > 100) progress = 0;
+                const circumference = 2 * Math.PI * 88;
+                const offset = circumference - (progress / 100) * circumference;
+                progressCircle.style.strokeDashoffset = offset;
+            }, 1000);
+        }
+    </script>
+</body>
+</html> 
